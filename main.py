@@ -2,6 +2,8 @@ from threading import Thread
 
 from creational.singleton.singletone import Singleton
 from creational.singleton.singletonThreadSafe import test_singleton
+from simpleFactory.pizzaStore import PizzaStore
+from simpleFactory.simplePizzaFactory import SimplePizzaFactory
 
 ''' Singleton test code'''
 
@@ -26,3 +28,9 @@ from creational.singleton.singletonThreadSafe import test_singleton
 #     process2 = Thread(target=test_singleton, args=("Doe",))
 #     process1.start()
 #     process2.start()
+
+if __name__ == "__main__":
+    #  Create a factory
+    factory: SimplePizzaFactory = SimplePizzaFactory()
+    pizzaStore = PizzaStore(factory)
+    pizzaStore.order_pizza("clam")
