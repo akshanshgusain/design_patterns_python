@@ -1,5 +1,9 @@
 from threading import Thread
 
+from creational.abstractFactory.CheesePizza import CheesePizza
+from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
+from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
+from creational.abstractFactory.Pizza import Pizza
 from creational.factoryMethod.ChicagoPizzaStore import ChicagoPizzaStore
 from creational.factoryMethod.NYPizzaStore import NYPizzaStore
 from creational.factoryMethod.PizzaStore import PizzaStore
@@ -42,10 +46,28 @@ from simpleFactory.simplePizzaFactory import SimplePizzaFactory
 
 """ Factory Method test code """
 
-if __name__ == "__main__":
-    ny_pizza_store: PizzaStore = NYPizzaStore()
-    ny_pizza_store.order_pizza('pepperoni')
-    ny_pizza_store.order_pizza('cheese')
+# if __name__ == "__main__":
+#     ny_pizza_store: PizzaStore = NYPizzaStore()
+#     ny_pizza_store.order_pizza('pepperoni')
+#     ny_pizza_store.order_pizza('cheese')
+#
+#     chicago_pizza_store: PizzaStore = ChicagoPizzaStore()
+#     chicago_pizza_store.order_pizza('cheese')
 
-    chicago_pizza_store: PizzaStore = ChicagoPizzaStore()
-    chicago_pizza_store.order_pizza('cheese')
+""" Abstract Factory test code"""
+
+if __name__ == "__main__":
+    pizza_store: PizzaStore = NYPizzaStore()
+    # pizza = pizza_store.create_pizza("pepperoni")
+    pizza = pizza_store.order_pizza("pepperoni")
+
+    # or Abstract Factory - Ingredient factory
+    # create ingredient factories
+    ny_ingredient_factory: NYPizzaIngredientFactory = NYPizzaIngredientFactory()
+    chicago_ingredient_factory: ChicagoPizzaIngredientFactory = ChicagoPizzaIngredientFactory()
+
+    ny_cheese_pizza: Pizza = CheesePizza(ny_ingredient_factory)
+    ny_cheese_pizza.prepare()
+    ny_cheese_pizza.bake()
+    ny_cheese_pizza.cut()
+    ny_cheese_pizza.box()
