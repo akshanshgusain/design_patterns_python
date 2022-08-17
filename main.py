@@ -1,3 +1,5 @@
+import copy
+
 from creational.abstractFactory.CheesePizza import CheesePizza
 from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
 from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
