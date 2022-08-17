@@ -1,9 +1,12 @@
 import math
-
 from structural.adapter.round.RoundPeg import RoundPeg
+from structural.adapter.square.SquarePeg import SquarePeg
 
 # Adapter allows fitting square pegs into round holes.
-from structural.adapter.square.SquarePeg import SquarePeg
+"""
+Adapter is a structural design pattern, which allows incompatible objects to collaborate.
+The Adapter acts as a wrapper between two objects. It catches calls for one object and transforms them to format and interface recognizable by the second object.
+"""
 
 
 class SquarePegAdapter(RoundPeg):

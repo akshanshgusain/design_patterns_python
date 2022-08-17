@@ -15,6 +15,11 @@ from structural.adapter.adapters.squarepegadapter import SquarePegAdapter
 from structural.adapter.round.RoundHole import RoundHole
 from structural.adapter.round.RoundPeg import RoundPeg
 from structural.adapter.square.SquarePeg import SquarePeg
+from structural.decorator.DarkRoast import DarkRoast
+from structural.decorator.Espresso import Espresso
+from structural.decorator.decorators.Mocha import Mocha
+from structural.decorator.decorators.Whip import Whip
+from structural.decorator.iBeverage import Beverage
 
 ''' Singleton test code'''
 
@@ -94,30 +99,42 @@ from structural.adapter.square.SquarePeg import SquarePeg
 #     print(f"Car built: \n {car.get_car_type()}")
 #
 #     manual_builder: CarManualBuilder = CarManualBuilder()
-# #     Director may know several building recipes
+# #     Director may know several building recipes'
 #     director.construct_sports_car(manual_builder)
 #     manual_car: Manual = manual_builder.get_result()
 #     print(f"Manual Car built: \n {manual_car}")
 
 """ Adapter test code """
 
+# if __name__ == "__main__":
+#     # Round fits round, no surprise.
+#     round_hole: RoundHole = RoundHole(9)
+#     round_peg: RoundPeg = RoundPeg(9)
+#     if round_hole.fits(round_peg):
+#         print(f"Round peg r9 fits round hole r9")
+#
+#     small_square_peg: SquarePeg = SquarePeg(2)
+#     large_square_peg: SquarePeg = SquarePeg(12)
+#
+#     # round_hole.fits(small_square_peg)
+#     # Expected type 'RoundPeg', got 'SquarePeg' instead
+#     # Adapter Solves this problem =>
+#     small_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
+#     large_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
+#
+#     if round_hole.fits(small_square_peg_adapter):
+#         print("Square peg w2 fits round hole r5")
+#     if not round_hole.fits(large_square_peg_adapter):
+#         print("Square peg w20 does not fit into round hole r5.")
+
+
+""" Decorator test code"""
+
 if __name__ == "__main__":
-    # Round fits round, no surprise.
-    round_hole: RoundHole = RoundHole(9)
-    round_peg: RoundPeg = RoundPeg(9)
-    if round_hole.fits(round_peg):
-        print(f"Round peg r9 fits round hole r9")
+    beverage: Beverage = Espresso()
+    print(f"{beverage.get_description()} ${beverage.cost()}")
 
-    small_square_peg: SquarePeg = SquarePeg(2)
-    large_square_peg: SquarePeg = SquarePeg(12)
-
-    # round_hole.fits(small_square_peg)
-    # Expected type 'RoundPeg', got 'SquarePeg' instead
-    # Adapter Solves this problem =>
-    small_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
-    large_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
-
-    if round_hole.fits(small_square_peg_adapter):
-        print("Square peg w2 fits round hole r5")
-    if not round_hole.fits(large_square_peg_adapter):
-        print("Square peg w20 does not fit into round hole r5.")
+    beverage_2: Beverage = DarkRoast()
+    beverage_2 = Mocha(beverage_2)
+    beverage_2 = Whip(beverage_2)
+    print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
