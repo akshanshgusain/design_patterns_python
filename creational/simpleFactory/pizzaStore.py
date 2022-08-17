@@ -1,5 +1,5 @@
-from simpleFactory.pizza import Pizza
-from simpleFactory.simplePizzaFactory import SimplePizzaFactory
+from creational.simpleFactory.pizza import Pizza
+from creational.simpleFactory.simplePizzaFactory import SimplePizzaFactory
 
 
 class PizzaStore:

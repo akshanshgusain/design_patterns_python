@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from simpleFactory.pizza import Pizza
+from creational.simpleFactory.pizza import Pizza
 
 """
 Abstract Factory defines an interface for creating all distinct products but leaves the actual product creation to

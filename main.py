@@ -1,15 +1,9 @@
-from threading import Thread
-
 from creational.abstractFactory.CheesePizza import CheesePizza
 from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
 from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
 from creational.abstractFactory.Pizza import Pizza
-from creational.factoryMethod.ChicagoPizzaStore import ChicagoPizzaStore
 from creational.factoryMethod.NYPizzaStore import NYPizzaStore
 from creational.factoryMethod.PizzaStore import PizzaStore
-from creational.singleton.singletone import Singleton
-from creational.singleton.singletonThreadSafe import test_singleton
-from simpleFactory.simplePizzaFactory import SimplePizzaFactory
 
 ''' Singleton test code'''
 

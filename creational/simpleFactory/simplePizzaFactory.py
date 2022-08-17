@@ -1,4 +1,4 @@
-from simpleFactory.pizza import *
+from creational.simpleFactory.pizza import *
 
 
 class SimplePizzaFactory:
