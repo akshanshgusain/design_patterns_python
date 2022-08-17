@@ -11,6 +11,10 @@ from creational.builder.product.Car import Car
 from creational.builder.product.Manual import Manual
 from creational.factoryMethod.NYPizzaStore import NYPizzaStore
 from creational.factoryMethod.PizzaStore import PizzaStore
+from structural.adapter.adapters.squarepegadapter import SquarePegAdapter
+from structural.adapter.round.RoundHole import RoundHole
+from structural.adapter.round.RoundPeg import RoundPeg
+from structural.adapter.square.SquarePeg import SquarePeg
 
 ''' Singleton test code'''
 
@@ -75,22 +79,45 @@ from creational.factoryMethod.PizzaStore import PizzaStore
 
 """ Builder test code"""
 
+# if __name__ == "__main__":
+#     director: Director = Director()
+#
+#     # Director gets the concrete builder object from the client
+#     # (application code). That's because application knows better which
+#     # builder to use to get a specific product.
+#     car_builder: CarBuilder = CarBuilder()
+#     director.construct_sports_car(car_builder)
+#
+#     # The final product is often retrieved from a builder object, since
+#     # Director is not aware and not dependent on concrete builders and products.
+#     car: Car = car_builder.get_result()
+#     print(f"Car built: \n {car.get_car_type()}")
+#
+#     manual_builder: CarManualBuilder = CarManualBuilder()
+# #     Director may know several building recipes
+#     director.construct_sports_car(manual_builder)
+#     manual_car: Manual = manual_builder.get_result()
+#     print(f"Manual Car built: \n {manual_car}")
+
+""" Adapter test code """
+
 if __name__ == "__main__":
-    director: Director = Director()
+    # Round fits round, no surprise.
+    round_hole: RoundHole = RoundHole(9)
+    round_peg: RoundPeg = RoundPeg(9)
+    if round_hole.fits(round_peg):
+        print(f"Round peg r9 fits round hole r9")
 
-    # Director gets the concrete builder object from the client
-    # (application code). That's because application knows better which
-    # builder to use to get a specific product.
-    car_builder: CarBuilder = CarBuilder()
-    director.construct_sports_car(car_builder)
+    small_square_peg: SquarePeg = SquarePeg(2)
+    large_square_peg: SquarePeg = SquarePeg(12)
 
-    # The final product is often retrieved from a builder object, since
-    # Director is not aware and not dependent on concrete builders and products.
-    car: Car = car_builder.get_result()
-    print(f"Car built: \n {car.get_car_type()}")
+    # round_hole.fits(small_square_peg)
+    # Expected type 'RoundPeg', got 'SquarePeg' instead
+    # Adapter Solves this problem =>
+    small_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
+    large_square_peg_adapter: SquarePegAdapter = SquarePegAdapter(small_square_peg)
 
-    manual_builder: CarManualBuilder = CarManualBuilder()
-#     Director may know several building recipes
-    director.construct_sports_car(manual_builder)
-    manual_car: Manual = manual_builder.get_result()
-    print(f"Manual Car built: \n {manual_car}")
+    if round_hole.fits(small_square_peg_adapter):
+        print("Square peg w2 fits round hole r5")
+    if not round_hole.fits(large_square_peg_adapter):
+        print("Square peg w20 does not fit into round hole r5.")
