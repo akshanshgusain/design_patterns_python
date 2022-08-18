@@ -2,6 +2,10 @@ import copy
 
 from behavioral.observer.Display.CurrentConditionDisplay import CurrentConditionDisplay
 from behavioral.observer.subject.WeatherData import WeatherData
+from behavioral.strategy.Order import Order
+from behavioral.strategy.strategies.PayByCreditCard import PayByCreditCard
+from behavioral.strategy.strategies.PayByPayPal import PayByPayPal
+from behavioral.strategy.strategies.iPayStrategy import PayStrategy
 from creational.abstractFactory.CheesePizza import CheesePizza
 from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
 from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
@@ -175,13 +179,64 @@ from structural.proxy.proxy import Nginx
 
 """ Observer test code """
 
+# if __name__ == "__main__":
+#     # Subject :
+#     weather_data: WeatherData = WeatherData()
+#
+#     # Observer and Display :
+#     current_display: CurrentConditionDisplay = CurrentConditionDisplay(weather_data)
+#
+#     weather_data.set_measurements(80, 65, 30.4)
+#     weather_data.set_measurements(82, 70, 34.2)
+#     weather_data.set_measurements(78, 90, 27.7)
+
+""" Strategy test code """
+
 if __name__ == "__main__":
-    # Subject :
-    weather_data: WeatherData = WeatherData()
+    PRICE_ON_PRODUCTS: dict[int, float] = {1: 2200, 2: 1850, 3: 1100, 4: 890}
+    ORDER: Order = Order()
+    STRATEGY = None
 
-    # Observer and Display :
-    current_display: CurrentConditionDisplay = CurrentConditionDisplay(weather_data)
+    while not ORDER.is_closed():
+        cost: float
+        continue_choice: str
 
-    weather_data.set_measurements(80, 65, 30.4)
-    weather_data.set_measurements(82, 70, 34.2)
-    weather_data.set_measurements(78, 90, 27.7)
+        while True:
+            choice = input("Please, select a product:" + "\n" +
+                           "1 - Mother board" + "\n" +
+                           "2 - CPU" + "\n" +
+                           "3 - HDD" + "\n" +
+                           "4 - Memory" + "\n")
+            cost = PRICE_ON_PRODUCTS.get(int(choice), 1)
+            count = int(input("Count: "))
+            ORDER.set_total_cost(cost * count)
+            continue_choice = input("Do you wish to continue selecting products? Y/N: ")
+            if continue_choice == "n" or continue_choice == "N":
+                break
+            else:
+                continue
+
+        payment_method: str = input("Please, select a payment method:" + "\n" +
+                                    "1 - PalPay" + "\n" +
+                                    "2 - Credit Card")
+        # Client creates different strategies based on input from user,
+        # application configuration, etc
+
+        #  Improvement = factory method
+        if payment_method == "1":
+            strategy = PayByPayPal()
+        else:
+            strategy = PayByCreditCard()
+
+        # Order object delegates gathering payment data to strategy object,
+        # since only strategies know what data they need to process a payment.
+        ORDER.process_order(strategy)
+        proceed = input(f"Pay {ORDER.get_total_cost()} units or continue shopping? P/C: ")
+
+        if proceed == "P" or proceed == "p":
+            # finally, strategy handles the payment.
+            if strategy.pay(ORDER.get_total_cost()):
+                print("Payment has been successful.")
+            else:
+                print("Payment has failed.")
+        ORDER.set_close()
