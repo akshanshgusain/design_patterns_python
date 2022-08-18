@@ -21,6 +21,8 @@ from structural.decorator.decorators.Mocha import Mocha
 from structural.decorator.decorators.Whip import Whip
 from structural.decorator.iBeverage import Beverage
 from structural.facade.VideoConversionFacade import VideoConversionFacade
+from structural.proxy.application import Application
+from structural.proxy.proxy import Nginx
 
 ''' Singleton test code'''
 
@@ -141,7 +143,29 @@ from structural.facade.VideoConversionFacade import VideoConversionFacade
 #     print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
 
 """ Facade test code"""
+
+# if __name__ == "__main__":
+#     converter: VideoConversionFacade = VideoConversionFacade()
+#     mp4_file: str = converter.convert_video("ducktyping.ogg", "mp4")
+#     print(mp4_file)
+
+
+""" Proxy test code """
 if __name__ == "__main__":
-    converter: VideoConversionFacade = VideoConversionFacade()
-    mp4_file: str = converter.convert_video("ducktyping.ogg", "mp4")
-    print(mp4_file)
+    application: Application = Application()
+    supported_methods: list[str] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    nginx: Nginx = Nginx(application, 5, supported_methods)
+
+    # Making requests
+    print(nginx.handle_request("/some/wrong/url", "GET"))
+    print(nginx.handle_request("/app/status", "FOO"))
+    print(nginx.handle_request("/app/status", "POST"))
+    print(nginx.handle_request("/app/status", "GET"))
+    print(nginx.handle_request("/app/status", "GET"))
+    print(nginx.handle_request("/app/status", "GET"))
+    print(nginx.handle_request("/app/status", "GET"))
+    print(nginx.handle_request("/app/status", "GET"))
+
+    print(nginx.handle_request("/create/user", "POST"))
+    print(nginx.handle_request("/create/user", "GET"))
+    print(nginx.handle_request("/create/user", "BAR"))
