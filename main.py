@@ -1,5 +1,7 @@
 import copy
 
+from behavioral.observer.Display.CurrentConditionDisplay import CurrentConditionDisplay
+from behavioral.observer.subject.WeatherData import WeatherData
 from creational.abstractFactory.CheesePizza import CheesePizza
 from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
 from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
@@ -151,21 +153,35 @@ from structural.proxy.proxy import Nginx
 
 
 """ Proxy test code """
+# if __name__ == "__main__":
+#     application: Application = Application()
+#     supported_methods: list[str] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+#     nginx: Nginx = Nginx(application, 5, supported_methods)
+#
+#     # Making requests
+#     print(nginx.handle_request("/some/wrong/url", "GET"))
+#     print(nginx.handle_request("/app/status", "FOO"))
+#     print(nginx.handle_request("/app/status", "POST"))
+#     print(nginx.handle_request("/app/status", "GET"))
+#     print(nginx.handle_request("/app/status", "GET"))
+#     print(nginx.handle_request("/app/status", "GET"))
+#     print(nginx.handle_request("/app/status", "GET"))
+#     print(nginx.handle_request("/app/status", "GET"))
+#
+#     print(nginx.handle_request("/create/user", "POST"))
+#     print(nginx.handle_request("/create/user", "GET"))
+#     print(nginx.handle_request("/create/user", "BAR"))
+
+
+""" Observer test code """
+
 if __name__ == "__main__":
-    application: Application = Application()
-    supported_methods: list[str] = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    nginx: Nginx = Nginx(application, 5, supported_methods)
+    # Subject :
+    weather_data: WeatherData = WeatherData()
 
-    # Making requests
-    print(nginx.handle_request("/some/wrong/url", "GET"))
-    print(nginx.handle_request("/app/status", "FOO"))
-    print(nginx.handle_request("/app/status", "POST"))
-    print(nginx.handle_request("/app/status", "GET"))
-    print(nginx.handle_request("/app/status", "GET"))
-    print(nginx.handle_request("/app/status", "GET"))
-    print(nginx.handle_request("/app/status", "GET"))
-    print(nginx.handle_request("/app/status", "GET"))
+    # Observer and Display :
+    current_display: CurrentConditionDisplay = CurrentConditionDisplay(weather_data)
 
-    print(nginx.handle_request("/create/user", "POST"))
-    print(nginx.handle_request("/create/user", "GET"))
-    print(nginx.handle_request("/create/user", "BAR"))
+    weather_data.set_measurements(80, 65, 30.4)
+    weather_data.set_measurements(82, 70, 34.2)
+    weather_data.set_measurements(78, 90, 27.7)
