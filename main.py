@@ -20,6 +20,7 @@ from structural.decorator.Espresso import Espresso
 from structural.decorator.decorators.Mocha import Mocha
 from structural.decorator.decorators.Whip import Whip
 from structural.decorator.iBeverage import Beverage
+from structural.facade.VideoConversionFacade import VideoConversionFacade
 
 ''' Singleton test code'''
 
@@ -130,11 +131,17 @@ from structural.decorator.iBeverage import Beverage
 
 """ Decorator test code"""
 
-if __name__ == "__main__":
-    beverage: Beverage = Espresso()
-    print(f"{beverage.get_description()} ${beverage.cost()}")
+# if __name__ == "__main__":
+#     beverage: Beverage = Espresso()
+#     print(f"{beverage.get_description()} ${beverage.cost()}")
+#
+#     beverage_2: Beverage = DarkRoast()
+#     beverage_2 = Mocha(beverage_2)
+#     beverage_2 = Whip(beverage_2)
+#     print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
 
-    beverage_2: Beverage = DarkRoast()
-    beverage_2 = Mocha(beverage_2)
-    beverage_2 = Whip(beverage_2)
-    print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
+""" Facade test code"""
+if __name__ == "__main__":
+    converter: VideoConversionFacade = VideoConversionFacade()
+    mp4_file: str = converter.convert_video("ducktyping.ogg", "mp4")
+    print(mp4_file)
