@@ -1,5 +1,12 @@
 import copy
 
+from behavioral.command.RemoteControl import RemoteControl
+from behavioral.command.commands.Commands import Command
+from behavioral.command.commands.LightOnCommand import LightOnCommand
+from behavioral.command.commands.LightOffCommand import LightOffCommand
+from behavioral.command.commands.StereoOffWithCDCommand import StereoOffWithCDCommand
+from behavioral.command.commands.StereoOnWithCDCommand import StereoOnWithCDCommand
+from behavioral.command.receivers.Receiver import Light, Stereo
 from behavioral.observer.Display.CurrentConditionDisplay import CurrentConditionDisplay
 from behavioral.observer.subject.WeatherData import WeatherData
 from behavioral.strategy.Order import Order
@@ -192,51 +199,88 @@ from structural.proxy.proxy import Nginx
 
 """ Strategy test code """
 
+# if __name__ == "__main__":
+#     PRICE_ON_PRODUCTS: dict[int, float] = {1: 2200, 2: 1850, 3: 1100, 4: 890}
+#     ORDER: Order = Order()
+#     STRATEGY = None
+#
+#     while not ORDER.is_closed():
+#         cost: float
+#         continue_choice: str
+#
+#         while True:
+#             choice = input("Please, select a product:" + "\n" +
+#                            "1 - Mother board" + "\n" +
+#                            "2 - CPU" + "\n" +
+#                            "3 - HDD" + "\n" +
+#                            "4 - Memory" + "\n")
+#             cost = PRICE_ON_PRODUCTS.get(int(choice), 1)
+#             count = int(input("Count: "))
+#             ORDER.set_total_cost(cost * count)
+#             continue_choice = input("Do you wish to continue selecting products? Y/N: ")
+#             if continue_choice == "n" or continue_choice == "N":
+#                 break
+#             else:
+#                 continue
+#
+#         payment_method: str = input("Please, select a payment method:" + "\n" +
+#                                     "1 - PalPay" + "\n" +
+#                                     "2 - Credit Card")
+#         # Client creates different strategies based on input from user,
+#         # application configuration, etc
+#
+#         #  Improvement = factory method
+#         if payment_method == "1":
+#             strategy = PayByPayPal()
+#         else:
+#             strategy = PayByCreditCard()
+#
+#         # Order object delegates gathering payment data to strategy object,
+#         # since only strategies know what data they need to process a payment.
+#         ORDER.process_order(strategy)
+#         proceed = input(f"Pay {ORDER.get_total_cost()} units or continue shopping? P/C: ")
+#
+#         if proceed == "P" or proceed == "p":
+#             # finally, strategy handles the payment.
+#             if strategy.pay(ORDER.get_total_cost()):
+#                 print("Payment has been successful.")
+#             else:
+#                 print("Payment has failed.")
+#         ORDER.set_close()
+
+"""Command test code"""
+
 if __name__ == "__main__":
-    PRICE_ON_PRODUCTS: dict[int, float] = {1: 2200, 2: 1850, 3: 1100, 4: 890}
-    ORDER: Order = Order()
-    STRATEGY = None
+    remote: RemoteControl = RemoteControl(4)
 
-    while not ORDER.is_closed():
-        cost: float
-        continue_choice: str
+    # Command receivers
+    living_room_light: Light = Light("Living Room Light")
+    bed_room_light: Light = Light("Bed Room Light")
+    kitchen_room_light: Light = Light("Kitchen Room Light")
+    stereo: Stereo = Stereo()
 
-        while True:
-            choice = input("Please, select a product:" + "\n" +
-                           "1 - Mother board" + "\n" +
-                           "2 - CPU" + "\n" +
-                           "3 - HDD" + "\n" +
-                           "4 - Memory" + "\n")
-            cost = PRICE_ON_PRODUCTS.get(int(choice), 1)
-            count = int(input("Count: "))
-            ORDER.set_total_cost(cost * count)
-            continue_choice = input("Do you wish to continue selecting products? Y/N: ")
-            if continue_choice == "n" or continue_choice == "N":
-                break
-            else:
-                continue
+    # Commands
+    living_room_light_on_command: Command = LightOnCommand(living_room_light)
+    living_room_light_off_command: Command = LightOffCommand(living_room_light)
 
-        payment_method: str = input("Please, select a payment method:" + "\n" +
-                                    "1 - PalPay" + "\n" +
-                                    "2 - Credit Card")
-        # Client creates different strategies based on input from user,
-        # application configuration, etc
+    bed_room_light_on_command: Command = LightOnCommand(bed_room_light)
+    bed_room_light_off_command: Command = LightOffCommand(bed_room_light)
 
-        #  Improvement = factory method
-        if payment_method == "1":
-            strategy = PayByPayPal()
-        else:
-            strategy = PayByCreditCard()
+    kitchen_room_light_on_command: Command = LightOnCommand(kitchen_room_light)
+    kitchen_room_light_off_command: Command = LightOffCommand(kitchen_room_light)
 
-        # Order object delegates gathering payment data to strategy object,
-        # since only strategies know what data they need to process a payment.
-        ORDER.process_order(strategy)
-        proceed = input(f"Pay {ORDER.get_total_cost()} units or continue shopping? P/C: ")
+    stereo_on_command: Command = StereoOnWithCDCommand(stereo)
+    stereo_off_command: Command = StereoOffWithCDCommand(stereo)
 
-        if proceed == "P" or proceed == "p":
-            # finally, strategy handles the payment.
-            if strategy.pay(ORDER.get_total_cost()):
-                print("Payment has been successful.")
-            else:
-                print("Payment has failed.")
-        ORDER.set_close()
+    # Set commands to remote control
+
+    remote.set_command(0, living_room_light_on_command, living_room_light_off_command)
+    remote.set_command(1, bed_room_light_on_command, bed_room_light_off_command)
+    remote.set_command(2, kitchen_room_light_on_command, kitchen_room_light_off_command)
+    remote.set_command(3, stereo_on_command, stereo_off_command)
+
+    print(remote)
+
+    remote.on_button_pushed(3)
+    remote.on_button_pushed(2)
+    remote.off_button_pushed(2)
