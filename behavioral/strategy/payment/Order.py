@@ -1,5 +1,5 @@
 """ """
-from behavioral.strategy.strategies.iPayStrategy import PayStrategy
+from behavioral.strategy.payment.strategies.iPayStrategy import PayStrategy
 
 """
 Order class. Doesn't know the concrete payment method (strategy) user has

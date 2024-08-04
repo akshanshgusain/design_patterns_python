@@ -1,4 +1,4 @@
-from behavioral.strategy.strategies.iPayStrategy import PayStrategy
+from behavioral.strategy.payment.strategies.iPayStrategy import PayStrategy
 
 
 class CreditCard:

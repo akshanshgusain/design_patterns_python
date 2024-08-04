@@ -1,41 +1,9 @@
-import copy
-
-from behavioral.command.RemoteControl import RemoteControl
-from behavioral.command.commands.Commands import Command
-from behavioral.command.commands.LightOnCommand import LightOnCommand
-from behavioral.command.commands.LightOffCommand import LightOffCommand
-from behavioral.command.commands.StereoOffWithCDCommand import StereoOffWithCDCommand
-from behavioral.command.commands.StereoOnWithCDCommand import StereoOnWithCDCommand
-from behavioral.command.receivers.Receiver import Light, Stereo
-from behavioral.observer.Display.CurrentConditionDisplay import CurrentConditionDisplay
-from behavioral.observer.subject.WeatherData import WeatherData
-from behavioral.strategy.Order import Order
-from behavioral.strategy.strategies.PayByCreditCard import PayByCreditCard
-from behavioral.strategy.strategies.PayByPayPal import PayByPayPal
-from behavioral.strategy.strategies.iPayStrategy import PayStrategy
-from creational.abstractFactory.CheesePizza import CheesePizza
-from creational.abstractFactory.ChicagoPizzaIngredientFactory import ChicagoPizzaIngredientFactory
-from creational.abstractFactory.NYPizzaIngredientFactory import NYPizzaIngredientFactory
-from creational.abstractFactory.Pizza import Pizza
-from creational.builder.CarBuilder import CarBuilder
-from creational.builder.CarManualBuilder import CarManualBuilder
-from creational.builder.director.Director import Director
-from creational.builder.product.Car import Car
-from creational.builder.product.Manual import Manual
-from creational.factoryMethod.NYPizzaStore import NYPizzaStore
-from creational.factoryMethod.PizzaStore import PizzaStore
-from structural.adapter.adapters.squarepegadapter import SquarePegAdapter
-from structural.adapter.round.RoundHole import RoundHole
-from structural.adapter.round.RoundPeg import RoundPeg
-from structural.adapter.square.SquarePeg import SquarePeg
 from structural.decorator.DarkRoast import DarkRoast
 from structural.decorator.Espresso import Espresso
 from structural.decorator.decorators.Mocha import Mocha
+from structural.decorator.decorators.Soy import Soy
 from structural.decorator.decorators.Whip import Whip
 from structural.decorator.iBeverage import Beverage
-from structural.facade.VideoConversionFacade import VideoConversionFacade
-from structural.proxy.application import Application
-from structural.proxy.proxy import Nginx
 
 ''' Singleton test code'''
 
@@ -83,9 +51,7 @@ from structural.proxy.proxy import Nginx
 """ Abstract Factory test code"""
 
 # if __name__ == "__main__":
-#     pizza_store: PizzaStore = NYPizzaStore()
-#     # pizza = pizza_store.create_pizza("pepperoni")
-#     pizza = pizza_store.order_pizza("pepperoni")
+
 #
 #     # or Abstract Factory - Ingredient factory
 #     # create ingredient factories
@@ -146,14 +112,15 @@ from structural.proxy.proxy import Nginx
 
 """ Decorator test code"""
 
-# if __name__ == "__main__":
-#     beverage: Beverage = Espresso()
-#     print(f"{beverage.get_description()} ${beverage.cost()}")
-#
-#     beverage_2: Beverage = DarkRoast()
-#     beverage_2 = Mocha(beverage_2)
-#     beverage_2 = Whip(beverage_2)
-#     print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
+if __name__ == "__main__":
+    beverage: Beverage = Espresso()
+    print(f"{beverage.get_description()} ${beverage.cost()}")
+
+    beverage_2: Beverage = DarkRoast()
+    beverage_2 = Mocha(beverage_2)
+    beverage_2 = Whip(beverage_2)
+    beverage_2 = Soy(beverage_2)
+    print(f"{beverage_2.get_description()} ${beverage_2.cost()}")
 
 """ Facade test code"""
 
@@ -250,37 +217,37 @@ from structural.proxy.proxy import Nginx
 
 """Command test code"""
 
-if __name__ == "__main__":
-    remote: RemoteControl = RemoteControl(4)
-
-    # Command receivers
-    living_room_light: Light = Light("Living Room Light")
-    bed_room_light: Light = Light("Bed Room Light")
-    kitchen_room_light: Light = Light("Kitchen Room Light")
-    stereo: Stereo = Stereo()
-
-    # Commands
-    living_room_light_on_command: Command = LightOnCommand(living_room_light)
-    living_room_light_off_command: Command = LightOffCommand(living_room_light)
-
-    bed_room_light_on_command: Command = LightOnCommand(bed_room_light)
-    bed_room_light_off_command: Command = LightOffCommand(bed_room_light)
-
-    kitchen_room_light_on_command: Command = LightOnCommand(kitchen_room_light)
-    kitchen_room_light_off_command: Command = LightOffCommand(kitchen_room_light)
-
-    stereo_on_command: Command = StereoOnWithCDCommand(stereo)
-    stereo_off_command: Command = StereoOffWithCDCommand(stereo)
-
-    # Set commands to remote control
-
-    remote.set_command(0, living_room_light_on_command, living_room_light_off_command)
-    remote.set_command(1, bed_room_light_on_command, bed_room_light_off_command)
-    remote.set_command(2, kitchen_room_light_on_command, kitchen_room_light_off_command)
-    remote.set_command(3, stereo_on_command, stereo_off_command)
-
-    print(remote)
-
-    remote.on_button_pushed(3)
-    remote.on_button_pushed(2)
-    remote.off_button_pushed(2)
+# if __name__ == "__main__":
+#     remote: RemoteControl = RemoteControl(4)
+#
+#     # Command receivers
+#     living_room_light: Light = Light("Living Room Light")
+#     bed_room_light: Light = Light("Bed Room Light")
+#     kitchen_room_light: Light = Light("Kitchen Room Light")
+#     stereo: Stereo = Stereo()
+#
+#     # Commands
+#     living_room_light_on_command: Command = LightOnCommand(living_room_light)
+#     living_room_light_off_command: Command = LightOffCommand(living_room_light)
+#
+#     bed_room_light_on_command: Command = LightOnCommand(bed_room_light)
+#     bed_room_light_off_command: Command = LightOffCommand(bed_room_light)
+#
+#     kitchen_room_light_on_command: Command = LightOnCommand(kitchen_room_light)
+#     kitchen_room_light_off_command: Command = LightOffCommand(kitchen_room_light)
+#
+#     stereo_on_command: Command = StereoOnWithCDCommand(stereo)
+#     stereo_off_command: Command = StereoOffWithCDCommand(stereo)
+#
+#     # Set commands to remote control
+#
+#     remote.set_command(0, living_room_light_on_command, living_room_light_off_command)
+#     remote.set_command(1, bed_room_light_on_command, bed_room_light_off_command)
+#     remote.set_command(2, kitchen_room_light_on_command, kitchen_room_light_off_command)
+#     remote.set_command(3, stereo_on_command, stereo_off_command)
+#
+#     print(remote)
+#
+#     remote.on_button_pushed(3)
+#     remote.on_button_pushed(2)
+#     remote.off_button_pushed(2)

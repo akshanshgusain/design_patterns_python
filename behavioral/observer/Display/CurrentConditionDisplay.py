@@ -11,6 +11,7 @@ class CurrentConditionDisplay(Observer, DisplayElement):
         self.temperature: float = 0
         self.humidity: float = 0
 
+    #  Callback function
     def update(self, temp: float, humidity: float, pressure: float):
         self.temperature = temp
         self.humidity = humidity
